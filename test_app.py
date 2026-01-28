@@ -1,12 +1,10 @@
-from app import application as app
+from add import add
 
+def test_add_positive_numbers():
+    assert add(2, 3) == 5
 
-def test_home():
-    client = app.test_client()
-    response = client.get("/")
-    assert response.data == b"Hello CI"
+def test_add_negative_numbers():
+    assert add(-1, -4) == -5
 
-def test_health():
-    client = app.test_client()
-    response = client.get("/health")
-    assert response.data == b"OK"
+def test_add_mixed_numbers():
+    assert add(-2, 5) == 3
