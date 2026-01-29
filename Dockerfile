@@ -68,3 +68,55 @@ CMD ["python", "add.py"]
 # EXPOSE 80
 # CMD ["nginx", "-g", "daemon off;"]
 
+# -------------------> Scans for maintaining quality 
+
+
+# name: CI Security Scans
+
+# on:
+#   workflow_dispatch:   # GitHub UI se manual run
+#   push:
+#     branches: [ main ]
+
+# jobs:
+#   security-scan:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     # 1️⃣ Checkout code
+#     - name: Checkout code
+#       uses: actions/checkout@v3
+
+#     # 2️⃣ Secret Scan (API keys, passwords)
+#     - name: Secret Scan (Gitleaks)
+#       uses: gitleaks/gitleaks-action@v2
+#       continue-on-error: false
+
+#     # 3️⃣ Code & Dependency Scan
+#     - name: Trivy Filesystem Scan
+#       uses: aquasecurity/trivy-action@0.20.0
+#       with:/
+#         scan-type: fs
+#         scan-ref: .
+#         severity: HIGH,CRITICAL
+#         exit-code: 1
+
+#     # 4️⃣ Build Docker Image
+#     - name: Build Docker Image
+#       run: |
+#         docker build -t myapp:latest .
+
+#     # 5️⃣ Docker Image Vulnerability Scan
+#     - name: Trivy Docker Image Scan
+#       uses: aquasecurity/trivy-action@0.20.0
+#       with:
+#         image-ref: myapp:latest
+#         severity: HIGH,CRITICAL
+#         exit-code: 1
+
+#     # 6️⃣ IaC Scan (Terraform / Kubernetes / CloudFormation)
+#     - name: IaC Scan (Checkov)
+#       uses: bridgecrewio/checkov-action@v12
+#       with:
+#         directory: .
+#         framework: all
